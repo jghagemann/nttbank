@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=nttbank-db'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=nttdata'
+    ports:
+      - '5432:5432'
