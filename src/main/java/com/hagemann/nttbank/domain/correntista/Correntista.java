@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "correntistas")
 @Entity(name = "Correntista")
@@ -19,7 +21,7 @@ import java.util.List;
 public class Correntista {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private BigInteger id;
     private String nome;
     private String sobrenome;
@@ -27,7 +29,8 @@ public class Correntista {
     @Column(unique = true)
     private String email;
 
-    private List<Conta> contas;
+    @OneToMany(mappedBy = "correntista")
+    private Set<Conta> contas;
 
     private Boolean ativo;
 
@@ -35,8 +38,8 @@ public class Correntista {
         this.nome = correntistaDto.nome();
         this.sobrenome = correntistaDto.sobrenome();
         this.email = correntistaDto.email();
-        this.contas = correntistaDto.contas();
-        this.ativo = correntistaDto.ativo();
+        this.contas = new HashSet<>();
+        this.ativo = true;
     }
 
     public void atualizarDados(AtualizarDadosCorrentistaDto atualizarDadosCorrentistaDto) {

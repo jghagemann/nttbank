@@ -18,6 +18,8 @@ import java.math.BigInteger;
 @EqualsAndHashCode(of = "id")
 public class Conta {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private BigInteger id;
 
     private BigDecimal saldo;
@@ -29,5 +31,12 @@ public class Conta {
     private Correntista correntista;
 
     @Enumerated(EnumType.STRING)
-    private Enum<TipoConta> tipoConta;
+    private TipoConta tipoConta;
+
+    public Conta(BigDecimal saldo, String numero, Correntista correntista, TipoConta tipoConta) {
+        this.saldo = saldo;
+        this.numero = numero;
+        this.correntista = correntista;
+        this.tipoConta = tipoConta;
+    }
 }
