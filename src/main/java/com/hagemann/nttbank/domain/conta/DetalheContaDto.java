@@ -1,7 +1,5 @@
 package com.hagemann.nttbank.domain.conta;
 
-import com.hagemann.nttbank.domain.correntista.Correntista;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 

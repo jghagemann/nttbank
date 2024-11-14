@@ -1,6 +1,7 @@
 package com.hagemann.nttbank.controller;
 
 import com.hagemann.nttbank.domain.correntista.*;
+import com.hagemann.nttbank.service.CorrentistaService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +18,12 @@ import java.net.URI;
 @RequestMapping("correntistas")
 public class CorrentistaController {
 
+    private final CorrentistaService correntistaService;
+
     private final CorrentistaRepository correntistaRepository;
 
-    public CorrentistaController(CorrentistaRepository correntistaRepository) {
+    public CorrentistaController(CorrentistaService correntistaService, CorrentistaRepository correntistaRepository) {
+        this.correntistaService = correntistaService;
         this.correntistaRepository = correntistaRepository;
     }
 
@@ -36,14 +40,14 @@ public class CorrentistaController {
 
     @GetMapping
     public ResponseEntity<Page<DetalheCorrentistaDto>> listarTodos(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
-        var pagina = correntistaRepository.findAll(paginacao).map(DetalheCorrentistaDto::new);
+        Page<DetalheCorrentistaDto> pagina = correntistaRepository.findAll(paginacao).map(DetalheCorrentistaDto::new);
         return ResponseEntity.ok(pagina);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalheCorrentistaDto> listarUm(@PathVariable BigInteger id) {
-        Correntista correntista = correntistaRepository.getReferenceById(id);
-        return ResponseEntity.ok(new DetalheCorrentistaDto(correntista));
+    public ResponseEntity<DetalheCorrentistaDto> listar(@PathVariable BigInteger id) {
+        DetalheCorrentistaDto correntistaDto = correntistaService.listar(id);
+        return ResponseEntity.ok(correntistaDto);
     }
 
     @PutMapping

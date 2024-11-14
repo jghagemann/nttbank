@@ -39,4 +39,13 @@ public class Conta {
         this.correntista = correntista;
         this.tipoConta = tipoConta;
     }
+
+    public void atualizarDados(AtualizarDadosContaDto atualizarDadosContaDto) {
+        if (atualizarDadosContaDto.saldo() != null) {
+            this.saldo = atualizarDadosContaDto.saldo();
+        }
+        if (!atualizarDadosContaDto.numero().isBlank()) {
+            this.numero = atualizarDadosContaDto.numero();
+        }
+    }
 }

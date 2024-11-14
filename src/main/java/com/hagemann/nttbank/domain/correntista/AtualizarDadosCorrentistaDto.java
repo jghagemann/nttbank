@@ -10,6 +10,6 @@ public record AtualizarDadosCorrentistaDto(
         BigInteger id,
         String nome,
         String sobrenome,
-        String email
-) {
+        String email,
+        Boolean ativo) {
 }
