@@ -41,9 +41,6 @@ public class Conta {
     }
 
     public void atualizarDados(AtualizarDadosContaDto atualizarDadosContaDto) {
-        if (atualizarDadosContaDto.saldo() != null) {
-            this.saldo = atualizarDadosContaDto.saldo();
-        }
         if (!atualizarDadosContaDto.numero().isBlank()) {
             this.numero = atualizarDadosContaDto.numero();
         }
