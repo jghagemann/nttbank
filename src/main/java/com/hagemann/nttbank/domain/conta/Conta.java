@@ -1,6 +1,7 @@
 package com.hagemann.nttbank.domain.conta;
 
 import com.hagemann.nttbank.domain.correntista.Correntista;
+import com.hagemann.nttbank.domain.transacao.Transacao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Set;
 
 @Table(name = "contas")
 @Entity(name = "Conta")
@@ -29,6 +31,9 @@ public class Conta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Correntista correntista;
+
+    @OneToMany(mappedBy = "contaOrigem")
+    private Set<Transacao> transacoes;
 
     @Enumerated(EnumType.STRING)
     private TipoConta tipoConta;
