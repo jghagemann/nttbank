@@ -1,20 +1,28 @@
 package com.hagemann.nttbank.domain.transacao;
 
+import com.hagemann.nttbank.domain.conta.Conta;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 public record TransacaoDto(
+
+        @NotNull
+        LocalDateTime dataTransacao,
+
         @NotNull
         BigDecimal valor,
 
         @NotNull
-        BigInteger contaOrigemId,
+        Conta contaOrigem,
 
         @NotNull
-        BigInteger contaDestinoId,
+        Conta contaDestino,
 
         @NotNull
-        TipoTransacao tipoTransacao) {
+        TipoTransacao tipoTransacao,
+
+        @NotNull
+        Categoria categoria) {
 }
