@@ -1,11 +1,10 @@
 package com.hagemann.nttbank.controller;
 
 import com.hagemann.nttbank.domain.conta.AtualizarDadosContaDto;
-import com.hagemann.nttbank.domain.conta.Conta;
 import com.hagemann.nttbank.domain.conta.ContaDto;
 import com.hagemann.nttbank.domain.conta.DetalheContaDto;
-import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
 import com.hagemann.nttbank.service.ContaService;
+import com.hagemann.nttbank.service.ContaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,9 +22,8 @@ import java.net.URI;
 public class ContaController {
 
     private final ContaService contaService;
-    private CorrentistaRepository correntistaRepository;
 
-    public ContaController(ContaService contaService) {
+    public ContaController(ContaServiceImpl contaService) {
         this.contaService = contaService;
     }
 
@@ -33,10 +31,10 @@ public class ContaController {
     ResponseEntity<DetalheContaDto> criarConta(@RequestBody @Valid ContaDto contaDto,
         UriComponentsBuilder uriComponentsBuilder) {
 
-        Conta conta = contaService.criarConta(contaDto);
-        URI uri = uriComponentsBuilder.path("/contas/{id}").buildAndExpand(conta.getId()).toUri();
+        DetalheContaDto conta = contaService.criarConta(contaDto);
+        URI uri = uriComponentsBuilder.path("/contas/{id}").buildAndExpand(conta.id()).toUri();
 
-        return ResponseEntity.created(uri).body(new DetalheContaDto(conta));
+        return ResponseEntity.created(uri).body(conta);
     }
 
     @GetMapping("/correntista/{id}")
@@ -53,8 +51,8 @@ public class ContaController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<DetalheContaDto> atualizar(@RequestBody @Valid AtualizarDadosContaDto atualizarDadosContaDto) {
-        DetalheContaDto contaAtualizada = contaService.atualizar(atualizarDadosContaDto);
+    public ResponseEntity<DetalheContaDto> atualizarDadosConta(@RequestBody @Valid AtualizarDadosContaDto atualizarDadosContaDto) {
+        DetalheContaDto contaAtualizada = contaService.atualizarDadosConta(atualizarDadosContaDto);
         return ResponseEntity.ok(contaAtualizada);
     }
 

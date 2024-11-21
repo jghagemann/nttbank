@@ -2,10 +2,7 @@ package com.hagemann.nttbank.domain.conta;
 
 import com.hagemann.nttbank.domain.correntista.Correntista;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -13,6 +10,7 @@ import java.math.BigInteger;
 @Table(name = "contas")
 @Entity(name = "Conta")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -33,16 +31,4 @@ public class Conta {
     @Enumerated(EnumType.STRING)
     private TipoConta tipoConta;
 
-    public Conta(BigDecimal saldo, String numero, Correntista correntista, TipoConta tipoConta) {
-        this.saldo = saldo;
-        this.numero = numero;
-        this.correntista = correntista;
-        this.tipoConta = tipoConta;
-    }
-
-    public void atualizarDados(AtualizarDadosContaDto atualizarDadosContaDto) {
-        if (!atualizarDadosContaDto.numero().isBlank()) {
-            this.numero = atualizarDadosContaDto.numero();
-        }
-    }
 }

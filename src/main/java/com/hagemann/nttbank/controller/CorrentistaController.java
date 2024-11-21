@@ -1,13 +1,14 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.domain.correntista.*;
+import com.hagemann.nttbank.domain.correntista.AtualizarDadosCorrentistaDto;
+import com.hagemann.nttbank.domain.correntista.CorrentistaDto;
+import com.hagemann.nttbank.domain.correntista.DetalheCorrentistaDto;
 import com.hagemann.nttbank.service.CorrentistaService;
-import jakarta.validation.Valid;
+import com.hagemann.nttbank.service.CorrentistaServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,28 +21,25 @@ public class CorrentistaController {
 
     private final CorrentistaService correntistaService;
 
-    private final CorrentistaRepository correntistaRepository;
 
-    public CorrentistaController(CorrentistaService correntistaService, CorrentistaRepository correntistaRepository) {
+    public CorrentistaController(CorrentistaServiceImpl correntistaService) {
         this.correntistaService = correntistaService;
-        this.correntistaRepository = correntistaRepository;
     }
 
     @PostMapping()
-    @Transactional
-    public ResponseEntity<DetalheCorrentistaDto> cadastrar(@RequestBody @Valid CorrentistaDto correntistaDto,
+    public ResponseEntity<DetalheCorrentistaDto> cadastrar(@RequestBody CorrentistaDto correntistaDto,
             UriComponentsBuilder uriComponentsBuilder) {
-        Correntista correntista = new Correntista(correntistaDto);
-        correntistaRepository.save(correntista);
 
-        URI uri = uriComponentsBuilder.path("/correntistas/{id}").buildAndExpand(correntista.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DetalheCorrentistaDto(correntista));
+        DetalheCorrentistaDto correntista = correntistaService.cadastrar(correntistaDto);
+
+        URI uri = uriComponentsBuilder.path("/correntistas/{id}").buildAndExpand(correntista.id()).toUri();
+        return ResponseEntity.created(uri).body(correntista);
     }
 
     @GetMapping
-    public ResponseEntity<Page<DetalheCorrentistaDto>> listarTodos(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
-        Page<DetalheCorrentistaDto> pagina = correntistaRepository.findAll(paginacao).map(DetalheCorrentistaDto::new);
-        return ResponseEntity.ok(pagina);
+    public ResponseEntity<Page<DetalheCorrentistaDto>> listarTodos(@PageableDefault(sort = {"nome"}) Pageable pageable) {
+        Page<DetalheCorrentistaDto> detalheCorrentistaDtoPage = correntistaService.listarTodos(pageable);
+        return ResponseEntity.ok(detalheCorrentistaDtoPage);
     }
 
     @GetMapping("/{id}")
@@ -51,20 +49,15 @@ public class CorrentistaController {
     }
 
     @PutMapping
-    @Transactional
-    public ResponseEntity<DetalheCorrentistaDto> atualizar(@RequestBody @Valid AtualizarDadosCorrentistaDto atualizarDadosCorrentistaDto) {
-        Correntista correntista = correntistaRepository.getReferenceById(atualizarDadosCorrentistaDto.id());
-        correntista.atualizarDados(atualizarDadosCorrentistaDto);
+    public ResponseEntity<DetalheCorrentistaDto> atualizar(@RequestBody AtualizarDadosCorrentistaDto atualizarDadosCorrentistaDto) {
+        DetalheCorrentistaDto detalheCorrentistaDto = correntistaService.atualizarDados(atualizarDadosCorrentistaDto);
 
-        return ResponseEntity.ok(new DetalheCorrentistaDto(correntista));
+        return ResponseEntity.ok(detalheCorrentistaDto);
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity<Void> excluir(@PathVariable BigInteger id) {
-        Correntista correntista = correntistaRepository.getReferenceById(id);
-        correntista.excluir();
-
+    public ResponseEntity<Void> desativar(@PathVariable BigInteger id) {
+        correntistaService.desativar(id);
         return ResponseEntity.noContent().build();
     }
 }

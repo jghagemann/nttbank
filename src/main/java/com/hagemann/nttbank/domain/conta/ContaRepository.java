@@ -13,4 +13,6 @@ public interface ContaRepository extends JpaRepository<Conta, BigInteger> {
     Set<Conta> findAllByCorrentistaId(BigInteger id);
 
     Page<Conta> findAllByCorrentistaId(BigInteger id, Pageable pageable);
+
+    Boolean existsByNumero(String numero);
 }
