@@ -43,7 +43,7 @@
 
 
 11. Doc OpenAPI e Tech Write:
-    1. Utilizar OpenAPI para documentar todos os endpoints da aPI.
+    1. Utilizar OpenAPI para documentar todos os endpoints da API.
     2. Criar uma documentação técnica detalhada descrevendo a arquitetura, principais funcionalidades e instruções para configurar e rodar o projeto
 
 
