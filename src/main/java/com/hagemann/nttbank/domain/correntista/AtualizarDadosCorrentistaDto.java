@@ -8,8 +8,12 @@ public record AtualizarDadosCorrentistaDto(
 
         @NotNull
         BigInteger id,
+
         String nome,
+
         String sobrenome,
+
         String email,
+
         Boolean ativo) {
 }
