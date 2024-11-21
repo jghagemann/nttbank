@@ -4,14 +4,11 @@ import com.hagemann.nttbank.domain.conta.*;
 import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigInteger;
 
