@@ -1,16 +1,16 @@
 # Estrutura do Desafio:
 
 1. Containers Docker:
-    1. Configurar o ambiente de desenvolvimento com Docker, incluindo um DB (e.g. PostgreSQL, MySQL) e a aplicação Spring Boot
+    1. Configurar o ambiente de desenvolvimento com Docker, incluindo um DB (e.g. PostgreSQL, MySQL) e a aplicação Spring Boot 
 
 
 2. CRUD de usuários e Transações:
-    1. Implementar operações CRUD para gerenciar perfis de usuário.
-    2. Implementar operações CRUD para gerenciar transações financeiras (depósitos, saques, transferências)
+    1. Implementar operações CRUD para gerenciar perfis de usuário. :white_check_mark:
+    2. Implementar operações CRUD para gerenciar transações financeiras (depósitos, saques, transferências) :white_check_mark:
 
 
 3. Cadastro em massa por Upload:
-    1. Implementar funcionalidade para importar dados de usuários a partir de uma planilha Excel e salvar no BD
+    1. Implementar funcionalidade para importar dados de usuários a partir de uma planilha Excel e salvar no BD :white_check_mark:
 
 
 4. Análise de Despesas:
@@ -35,7 +35,7 @@
 
 
 9. Spring Security:
-    1. Implementar autenticação e autorização utilizando Spring Security, garantindo que somente usuários autorizados possam acessar certas funcionalidades
+    1. Implementar autenticação e autorização utilizando Spring Security, garantindo que somente usuários autorizados possam acessar certas funcionalidades :white_check_mark:
 
 
 10. Testes Unitários:
@@ -43,7 +43,7 @@
 
 
 11. Doc OpenAPI e Tech Write:
-    1. Utilizar OpenAPI para documentar todos os endpoints da API.
+    1. Utilizar OpenAPI para documentar todos os endpoints da API. :white_check_mark:
     2. Criar uma documentação técnica detalhada descrevendo a arquitetura, principais funcionalidades e instruções para configurar e rodar o projeto
 
 
