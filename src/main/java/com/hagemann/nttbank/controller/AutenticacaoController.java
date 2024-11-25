@@ -1,6 +1,9 @@
 package com.hagemann.nttbank.controller;
 
 import com.hagemann.nttbank.domain.usuario.AutenticacaoDto;
+import com.hagemann.nttbank.domain.usuario.Usuario;
+import com.hagemann.nttbank.infra.security.DadosTokenJwtDto;
+import com.hagemann.nttbank.infra.security.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,15 +19,21 @@ public class AutenticacaoController {
 
     private AuthenticationManager authenticationManager;
 
-    public AutenticacaoController(AuthenticationManager authenticationManager) {
+    private TokenService tokenService;
+
+    public AutenticacaoController(AuthenticationManager authenticationManager, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping
-    public ResponseEntity login(@RequestBody AutenticacaoDto autenticacaoDto) {
-        Authentication token = new UsernamePasswordAuthenticationToken(autenticacaoDto.login(), autenticacaoDto.senha());
-        authenticationManager.authenticate(token);
+    public ResponseEntity<DadosTokenJwtDto> login(@RequestBody AutenticacaoDto autenticacaoDto) {
 
-        return ResponseEntity.ok().build();
+        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(autenticacaoDto.login(), autenticacaoDto.senha());
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+        String tokenJwt = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new DadosTokenJwtDto(tokenJwt));
     }
 }

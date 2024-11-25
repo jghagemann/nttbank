@@ -5,6 +5,7 @@ import com.hagemann.nttbank.domain.correntista.CorrentistaDto;
 import com.hagemann.nttbank.domain.correntista.DetalheCorrentistaDto;
 import com.hagemann.nttbank.service.CorrentistaService;
 import com.hagemann.nttbank.service.CorrentistaServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,6 +18,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("correntistas")
+@SecurityRequirement(name = "bearer-key")
 public class CorrentistaController {
 
     private final CorrentistaService correntistaService;
