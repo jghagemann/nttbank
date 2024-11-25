@@ -5,6 +5,8 @@ import com.hagemann.nttbank.domain.conta.ContaDto;
 import com.hagemann.nttbank.domain.conta.DetalheContaDto;
 import com.hagemann.nttbank.service.ContaService;
 import com.hagemann.nttbank.service.ContaServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/contas")
+@SecurityRequirement(name = "bearer-key")
 public class ContaController {
 
     private final ContaService contaService;

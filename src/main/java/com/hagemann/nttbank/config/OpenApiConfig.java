@@ -12,6 +12,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 summary = "API com CRUDs básicos, integração com APIs externa e MockAPI e geração de arquivos"
         ),
         servers = {
-                @Server(description = "Servidor Local", url = "localhost:8080")
+                @Server(description = "Servidor Local")
         })
 public class OpenApiConfig {}

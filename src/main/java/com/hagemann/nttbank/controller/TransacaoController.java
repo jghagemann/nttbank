@@ -4,6 +4,7 @@ import com.hagemann.nttbank.domain.transacao.AtualizarTransacaoDto;
 import com.hagemann.nttbank.domain.transacao.DetalheTransacaoDto;
 import com.hagemann.nttbank.domain.transacao.TransacaoDto;
 import com.hagemann.nttbank.service.TransacaoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/transacoes")
+@SecurityRequirement(name = "bearer-key")
 public class TransacaoController {
 
     private TransacaoService transacaoService;
