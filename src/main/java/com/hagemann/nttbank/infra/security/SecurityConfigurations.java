@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers("/login").permitAll();
                     req.requestMatchers("/arquivos/excel").permitAll();
+                    req.requestMatchers("/arquivos/pdf/**").permitAll();
                     req.requestMatchers("/administrador").permitAll();
                     req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();

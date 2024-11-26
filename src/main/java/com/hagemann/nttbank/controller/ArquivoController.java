@@ -1,13 +1,14 @@
 package com.hagemann.nttbank.controller;
 
 import com.hagemann.nttbank.service.ArquivoService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayOutputStream;
+import java.math.BigInteger;
 
 @RestController
 @RequestMapping("arquivos")
@@ -32,5 +33,14 @@ public class ArquivoController {
         }
     }
 
+    @GetMapping("/pdf/{correntistaId}")
+    public ResponseEntity<byte[]> generateTransacaoReport(@PathVariable BigInteger correntistaId) {
+        ByteArrayOutputStream baos = arquivoService.gerarPdfTransacoes(correntistaId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transacoes_report.pdf")
+                .header(HttpHeaders.CONTENT_TYPE, "application/pdf")
+                .body(baos.toByteArray());
+    }
 
 }
