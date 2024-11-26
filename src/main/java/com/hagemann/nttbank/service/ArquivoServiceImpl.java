@@ -5,6 +5,7 @@ import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
 import com.hagemann.nttbank.domain.transacao.Transacao;
 import com.hagemann.nttbank.domain.transacao.TransacaoRepository;
 import com.hagemann.nttbank.helper.ExcelHelper;
+import com.hagemann.nttbank.helper.GraficoHelper;
 import com.hagemann.nttbank.helper.PDFHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,9 +46,15 @@ public class ArquivoServiceImpl implements ArquivoService {
                 .orElseThrow(() -> new RuntimeException("Correntista não encontrado"));
 
         List<Transacao> transacoes = transacaoRepository.findAllByContaOrigemId(correntistaId);
-
-
-
         return PDFHelper.gerarPdfTransacoes(correntista, transacoes);
     }
+
+    @Override
+    public ByteArrayOutputStream gerarGraficoDespesas(BigInteger correntistaId) {
+
+        List<Transacao> transacoes = transacaoRepository.findAllByContaOrigemId(correntistaId);
+        return GraficoHelper.gerarGraficoDespesas(transacoes);
+    }
+
+
 }
