@@ -1,6 +1,7 @@
 package com.hagemann.nttbank.controller;
 
 import com.hagemann.nttbank.service.ArquivoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.math.BigInteger;
 
 @RestController
 @RequestMapping("arquivos")
+@SecurityRequirement(name = "bearer-key")
 public class ArquivoController {
 
     private ArquivoService arquivoService;

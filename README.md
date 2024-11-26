@@ -1,3 +1,15 @@
+# Tecnologias e Ferramentas:
+1. Java/Springboot
+2. PostgreSQL
+3. Docker
+4. JPA / Hibernate ORM/Validator
+5. Apache POI para Excel
+6. Apache PDFBox para PDF
+7. SpringDoc OpenAPI para documentação
+8. Spring Security
+9. Auth0 java-jwt para geração de token
+
+
 # Estrutura do Desafio:
 
 1. Containers Docker:
