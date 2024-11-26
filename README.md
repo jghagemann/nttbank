@@ -40,7 +40,7 @@ Geração de Documentos:
 
 
 5. Criar uma API Mock
-    1. Criar uma API Mock no MockAPI para simular dados de conta bancária dos usuários
+    1. Criar uma API Mock no MockAPI para simular dados de conta bancária dos usuários :white_check_mark:
 
 
 6. Consumir uma API Pública:
@@ -49,7 +49,7 @@ Geração de Documentos:
 
 7. Consumir as APIs:
     1. Mostrar a taxa de câmbio atual em cada transação.
-    2. Exibir o saldo da conta bancária dos usuários usando a API Mock
+    2. Exibir o saldo da conta bancária dos usuários usando a API Mock :white_check_mark:
 
 
 8. Validação dos Inputs:
