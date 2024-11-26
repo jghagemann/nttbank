@@ -48,7 +48,7 @@
 
 
 12. Rota para baixar relatório:
-    1. Implementar uma rota que permite baixar um relatório em formato PDF ou Excel contendo um resumo das transações financeiras dos usuários
+    1. Implementar uma rota que permite baixar um relatório em formato PDF ou Excel contendo um resumo das transações financeiras dos usuários :white_check_mark:
 
 # Entregáveis:
 - Código Fonte da Aplicação
