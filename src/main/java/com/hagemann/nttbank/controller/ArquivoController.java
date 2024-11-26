@@ -4,6 +4,7 @@ import com.hagemann.nttbank.service.ArquivoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,6 +44,16 @@ public class ArquivoController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transacoes_report.pdf")
                 .header(HttpHeaders.CONTENT_TYPE, "application/pdf")
                 .body(baos.toByteArray());
+    }
+
+    @GetMapping("/grafico/{correntistaId}")
+    public ResponseEntity<byte[]> gerarGraficoDespesas(@PathVariable BigInteger correntistaId) {
+        ByteArrayOutputStream graphStream = arquivoService.gerarGraficoDespesas(correntistaId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"grafico_despesas.png\"")
+                .contentType(MediaType.IMAGE_PNG)
+                .body(graphStream.toByteArray());
     }
 
 }

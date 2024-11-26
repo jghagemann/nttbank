@@ -1,13 +1,23 @@
 # Tecnologias e Ferramentas:
+Linguagem, Framework e Banco de Dados:
 1. Java/Springboot
 2. PostgreSQL
+
+Container
 3. Docker
+
+Bibliotecas:
 4. JPA / Hibernate ORM/Validator
-5. Apache POI para Excel
-6. Apache PDFBox para PDF
-7. SpringDoc OpenAPI para documentação
-8. Spring Security
-9. Auth0 java-jwt para geração de token
+5. SpringDoc OpenAPI para documentação
+6. Spring Security 
+7. Auth0 java-jwt para geração de token
+
+Geração de Documentos:
+8. Apache POI para Excel
+9. Apache PDFBox para PDF 
+10. JFreeChart para gráficos
+
+
 
 
 # Estrutura do Desafio:
@@ -26,7 +36,7 @@
 
 
 4. Análise de Despesas:
-    1. Implementar uma funcionalidade que permite aos usuários visualizar um resumo e análise de suas despesas, categorizando as transações e exibindo gráficos.
+    1. Implementar uma funcionalidade que permite aos usuários visualizar um resumo e análise de suas despesas, categorizando as transações e exibindo gráficos. :white_check_mark:
 
 
 5. Criar uma API Mock
