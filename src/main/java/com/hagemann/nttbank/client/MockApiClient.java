@@ -21,14 +21,14 @@ public class MockApiClient {
 
     public Flux<AccountDtoResponse> getAll() {
         return this.webClient.get()
-                .uri("/accounts")  // Replace with your specific API endpoint
+                .uri("/accounts")
                 .retrieve()
                 .bodyToFlux(AccountDtoResponse.class);
     }
 
     public Mono<AccountDtoResponse> getOne(BigInteger id) {
         return this.webClient.get()
-                .uri("/accounts/{id}", id)  // Replace with your specific API endpoint
+                .uri("/accounts/{id}", id)
                 .retrieve()
                 .bodyToMono(AccountDtoResponse.class);
     }
