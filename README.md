@@ -47,7 +47,7 @@ Geração de Documentos:
 
 
 7. Consumir as APIs:
-    1. Mostrar a taxa de câmbio atual em cada transação.
+    1. Mostrar a taxa de câmbio atual em cada transação. :white_check_mark:
     2. Exibir o saldo da conta bancária dos usuários usando a API Mock :white_check_mark:
 
 
