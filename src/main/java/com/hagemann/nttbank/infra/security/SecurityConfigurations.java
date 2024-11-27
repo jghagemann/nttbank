@@ -31,6 +31,7 @@ public class SecurityConfigurations {
                     req.requestMatchers("/login").permitAll();
                     req.requestMatchers("/accounts").permitAll();
                     req.requestMatchers("/accounts/**").permitAll();
+                    req.requestMatchers("/converter").permitAll();
                     req.requestMatchers("/arquivos/excel").permitAll();
                     req.requestMatchers("/arquivos/pdf/**").permitAll();
                     req.requestMatchers("/arquivos/grafico/**").permitAll();

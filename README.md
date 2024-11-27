@@ -1,23 +1,22 @@
 # Tecnologias e Ferramentas:
 Linguagem, Framework e Banco de Dados:
-1. Java/Springboot
-2. PostgreSQL
+- Java/Springboot
+- PostgreSQL
 
 Container
-3. Docker
+- Docker
 
 Bibliotecas:
-4. JPA / Hibernate ORM/Validator
-5. SpringDoc OpenAPI para documentação
-6. Spring Security 
-7. Auth0 java-jwt para geração de token
+- JPA / Hibernate ORM/Validator
+- SpringDoc OpenAPI para documentação
+- Spring Security 
+- Auth0 java-jwt para geração de token
+- WebClient para chamadas à APIs
 
 Geração de Documentos:
-8. Apache POI para Excel
-9. Apache PDFBox para PDF 
-10. JFreeChart para gráficos
-
-
+- Apache POI para Excel
+- Apache PDFBox para PDF 
+- JFreeChart para gráficos
 
 
 # Estrutura do Desafio:
@@ -44,7 +43,7 @@ Geração de Documentos:
 
 
 6. Consumir uma API Pública:
-    1. Integrar uma API pública de taxas de câmbio (e.g. https://exchangeratesapi.io/) para converter valores de transações em diferentes moedas.
+    1. Integrar uma API pública de taxas de câmbio (e.g. https://exchangeratesapi.io/) para converter valores de transações em diferentes moedas. :white_check_mark:
 
 
 7. Consumir as APIs:
@@ -79,8 +78,3 @@ Geração de Documentos:
 - Documentação técnica e OpenAPI
 - Testes unitários com cobertura de código
 - Demonstração funcional da API com integração das APIs Mock e pública
-
-
-
-
-
