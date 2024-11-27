@@ -37,8 +37,16 @@ public class ArquivoController {
     }
 
     @GetMapping("/pdf/{correntistaId}")
-    public ResponseEntity<byte[]> generateTransacaoReport(@PathVariable BigInteger correntistaId) {
-        ByteArrayOutputStream baos = arquivoService.gerarPdfTransacoes(correntistaId);
+    public ResponseEntity<byte[]> generateTransacaoReport(
+            @PathVariable BigInteger correntistaId,
+            @RequestParam(value = "cambio", defaultValue = "false") Boolean cambio) {
+
+        ByteArrayOutputStream baos;
+        if (Boolean.TRUE.equals(cambio)) {
+            baos = arquivoService.gerarPdfTransacoesComTaxa(correntistaId);
+        } else {
+            baos = arquivoService.gerarPdfTransacoes(correntistaId);
+        }
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transacoes_report.pdf")

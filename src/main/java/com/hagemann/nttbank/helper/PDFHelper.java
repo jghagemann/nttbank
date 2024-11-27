@@ -10,12 +10,14 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PDFHelper {
 
-    public static ByteArrayOutputStream gerarPdfTransacoes(Correntista correntista, List<Transacao> transacoes) {
+    public static ByteArrayOutputStream gerarPdfTransacoes(Correntista correntista, List<Transacao> transacoes, BigDecimal exchangeRate) {
         try (PDDocument document = new PDDocument(); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             PDPage page = new PDPage(PDRectangle.A4);
             document.addPage(page);
@@ -25,7 +27,7 @@ public class PDFHelper {
             PDFont helveticaBold = new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD);
             PDFont helvetica = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
 
-
+            // Header and basic details
             contentStream.setFont(helveticaBold, 18);
             contentStream.beginText();
             contentStream.newLineAtOffset(50, 750);
@@ -40,12 +42,15 @@ public class PDFHelper {
             contentStream.showText("Email: " + correntista.getEmail());
             contentStream.newLineAtOffset(0, -15);
             contentStream.showText("Ativo: " + (Boolean.TRUE.equals(correntista.getAtivo()) ? "Sim" : "Não"));
+            contentStream.newLineAtOffset(0, -15);
+            contentStream.showText("Cotação EUR/BRL: " + (exchangeRate != null ? "R$ " + exchangeRate : "N/A"));
             contentStream.endText();
 
+            // Table header
             float margin = 50;
-            float yPosition = 690;
-            float[] columnWidths = {120, 120, 100, 100, 120};
-            String[] headers = {"Data", "Valor", "Origem", "Destino", "Categoria"};
+            float yPosition = 650;
+            float[] columnWidths = {100, 80, 80, 80, 80, 20};
+            String[] headers = {"Data", "Valor", "Origem", "Destino", "Categoria", "Conversão"};
 
             drawTableHeader(contentStream, headers, columnWidths, yPosition);
 
@@ -67,7 +72,6 @@ public class PDFHelper {
                 contentStream.setFont(helvetica, 10);
                 contentStream.newLineAtOffset(margin, yPosition);
 
-
                 contentStream.showText(transacao.getDataTransacao().format(formatter));
                 contentStream.newLineAtOffset(columnWidths[0], 0);
                 contentStream.showText("R$ " + transacao.getValor());
@@ -77,6 +81,16 @@ public class PDFHelper {
                 contentStream.showText(transacao.getContaDestino() != null ? transacao.getContaDestino().getNumero() : "-");
                 contentStream.newLineAtOffset(columnWidths[3], 0);
                 contentStream.showText(transacao.getCategoria().name());
+                contentStream.newLineAtOffset(columnWidths[4], 0);
+
+
+                BigDecimal convertedValue = null;
+                if (exchangeRate != null) {
+                    convertedValue = transacao.getValor().multiply(exchangeRate);
+                }
+
+                contentStream.newLineAtOffset(columnWidths[5], 0);
+                contentStream.showText(convertedValue != null ? "R$ " + convertedValue.setScale(2, RoundingMode.HALF_UP) : "N/A");
 
                 contentStream.endText();
                 yPosition -= 20;

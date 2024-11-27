@@ -1,5 +1,7 @@
 package com.hagemann.nttbank.service;
 
+import com.hagemann.nttbank.client.ConversaoDtoRequest;
+import com.hagemann.nttbank.client.ExternalApiClient;
 import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
 import com.hagemann.nttbank.domain.transacao.Transacao;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -24,9 +27,12 @@ public class ArquivoServiceImpl implements ArquivoService {
 
     private TransacaoRepository transacaoRepository;
 
-    public ArquivoServiceImpl(CorrentistaRepository correntistaRepository, TransacaoRepository transacaoRepository) {
+    private ExternalApiClient externalApiClient;
+
+    public ArquivoServiceImpl(CorrentistaRepository correntistaRepository, TransacaoRepository transacaoRepository, ExternalApiClient externalApiClient) {
         this.correntistaRepository = correntistaRepository;
         this.transacaoRepository = transacaoRepository;
+        this.externalApiClient = externalApiClient;
     }
 
     @Override
@@ -46,7 +52,26 @@ public class ArquivoServiceImpl implements ArquivoService {
                 .orElseThrow(() -> new RuntimeException("Correntista não encontrado"));
 
         List<Transacao> transacoes = transacaoRepository.findAllByContaOrigemId(correntistaId);
-        return PDFHelper.gerarPdfTransacoes(correntista, transacoes);
+        return PDFHelper.gerarPdfTransacoes(correntista, transacoes, BigDecimal.ZERO);
+    }
+
+
+    public ByteArrayOutputStream gerarPdfTransacoesComTaxa(BigInteger correntistaId) {
+        Correntista correntista = correntistaRepository.findById(correntistaId)
+                .orElseThrow(() -> new RuntimeException("Correntista não encontrado"));
+
+        List<Transacao> transacoes = transacaoRepository.findAllByContaOrigemId(correntistaId);
+
+        // Get exchange rate from the API
+        return externalApiClient.get(new ConversaoDtoRequest("BRL"))
+                .map(response -> {
+                    BigDecimal exchangeRate = response.rates().get("BRL");
+                    if (exchangeRate == null) {
+                        throw new RuntimeException("Failed to fetch exchange rate for BRL");
+                    }
+                    return PDFHelper.gerarPdfTransacoes(correntista, transacoes, exchangeRate);
+                })
+                .block();
     }
 
     @Override
