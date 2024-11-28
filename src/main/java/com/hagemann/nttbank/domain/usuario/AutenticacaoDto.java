@@ -1,4 +1,11 @@
 package com.hagemann.nttbank.domain.usuario;
 
-public record AutenticacaoDto(String login, String senha) {
+import jakarta.validation.constraints.NotBlank;
+
+public record AutenticacaoDto(
+
+        @NotBlank
+        String login,
+        @NotBlank
+        String senha) {
 }

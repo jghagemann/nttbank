@@ -3,6 +3,7 @@ package com.hagemann.nttbank.service;
 import com.hagemann.nttbank.domain.usuario.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,9 +35,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void excluirUsuario(BigInteger id) {
+    public void excluirUsuario(@NotNull BigInteger id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Conta não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
         usuarioRepository.delete(usuario);
     }
 

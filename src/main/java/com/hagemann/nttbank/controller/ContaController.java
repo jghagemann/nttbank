@@ -31,7 +31,7 @@ public class ContaController {
     }
 
     @PostMapping()
-    ResponseEntity<DetalheContaDto> criarConta(@RequestBody @Valid ContaDto contaDto,
+    ResponseEntity<DetalheContaDto> criarConta(@RequestBody ContaDto contaDto,
         UriComponentsBuilder uriComponentsBuilder) {
 
         DetalheContaDto conta = contaService.criarConta(contaDto);
@@ -54,7 +54,7 @@ public class ContaController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<DetalheContaDto> atualizarDadosConta(@RequestBody @Valid AtualizarDadosContaDto atualizarDadosContaDto) {
+    public ResponseEntity<DetalheContaDto> atualizarDadosConta(@RequestBody AtualizarDadosContaDto atualizarDadosContaDto) {
         DetalheContaDto contaAtualizada = contaService.atualizarDadosConta(atualizarDadosContaDto);
         return ResponseEntity.ok(contaAtualizada);
     }

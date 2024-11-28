@@ -4,6 +4,7 @@ import com.hagemann.nttbank.domain.conta.ContaRepository;
 import com.hagemann.nttbank.domain.correntista.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class CorrentistaServiceImpl implements CorrentistaService {
     }
 
     @Override
-    public DetalheCorrentistaDto listar(BigInteger id) {
+    public DetalheCorrentistaDto listar(@NotNull BigInteger id) {
         Correntista correntista = correntistaRepository.getReferenceById(id);
         contaRepository.findAllByCorrentistaId(id);
         return new DetalheCorrentistaDto(correntista);
@@ -78,7 +79,7 @@ public class CorrentistaServiceImpl implements CorrentistaService {
     }
 
     @Override
-    public void desativar(BigInteger id) {
+    public void desativar(@NotNull BigInteger id) {
         Correntista correntista = correntistaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Correntista não encontrado"));
         correntista.setAtivo(false);

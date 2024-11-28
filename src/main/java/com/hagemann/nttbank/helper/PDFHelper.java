@@ -2,6 +2,7 @@ package com.hagemann.nttbank.helper;
 
 import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.transacao.Transacao;
+import com.hagemann.nttbank.exceptions.ArquivoException;
 import org.apache.pdfbox.pdmodel.*;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -100,7 +101,7 @@ public class PDFHelper {
             document.save(baos);
             return baos;
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao gerar relatório em PDF", e);
+            throw new ArquivoException("Erro ao gerar relatório em PDF");
         }
     }
 
