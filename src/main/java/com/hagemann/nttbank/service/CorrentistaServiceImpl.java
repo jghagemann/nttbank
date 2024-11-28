@@ -2,6 +2,7 @@ package com.hagemann.nttbank.service;
 
 import com.hagemann.nttbank.domain.conta.ContaRepository;
 import com.hagemann.nttbank.domain.correntista.*;
+import com.hagemann.nttbank.exceptions.CorrentistaException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -45,13 +46,18 @@ public class CorrentistaServiceImpl implements CorrentistaService {
 
     @Override
     public Page<DetalheCorrentistaDto> listarTodos(Pageable pageable) {
-        return correntistaRepository.findAll(pageable).map(DetalheCorrentistaDto::new);
+        Page<DetalheCorrentistaDto> detalheCorrentistaDtoPage = correntistaRepository.findAll(pageable).map(DetalheCorrentistaDto::new);
 
+        if (detalheCorrentistaDtoPage.isEmpty()) {
+            throw new CorrentistaException("A lista está vazia");
+        }
+        return detalheCorrentistaDtoPage;
     }
 
     @Override
     public DetalheCorrentistaDto listar(@NotNull BigInteger id) {
-        Correntista correntista = correntistaRepository.getReferenceById(id);
+        Correntista correntista = correntistaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Correntista não encontrado"));
         contaRepository.findAllByCorrentistaId(id);
         return new DetalheCorrentistaDto(correntista);
     }
@@ -83,5 +89,6 @@ public class CorrentistaServiceImpl implements CorrentistaService {
         Correntista correntista = correntistaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Correntista não encontrado"));
         correntista.setAtivo(false);
+        correntistaRepository.save(correntista);
     }
 }

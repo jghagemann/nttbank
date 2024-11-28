@@ -58,7 +58,9 @@ public class TransacaoServiceImpl implements TransacaoService {
 
     @Override
     public DetalheTransacaoDto listarUm(BigInteger id) {
-        Transacao transacao = transacaoRepository.getReferenceById(id);
+        Transacao transacao = transacaoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Transação não encontrada"));
+
         return new DetalheTransacaoDto(transacao.getId(), transacao.getValor(), transacao.getDataTransacao(),
                 transacao.getContaOrigem().getId(), transacao.getContaDestino().getId(), transacao.getTipoTransacao(),
                 transacao.getCategoria());

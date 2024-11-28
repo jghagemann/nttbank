@@ -111,6 +111,23 @@ class ContaServiceImplTest {
     }
 
     @Test
+    @DisplayName("Deve retornar página vazia ao listar contas quando não há contas")
+    void listarContasPaginaVazia() {
+        // Arrange
+        Page<Conta> contasPage = Page.empty();
+        Mockito.when(contaRepository.findAllByCorrentistaId(Mockito.any(BigInteger.class), Mockito.any(Pageable.class)))
+                .thenReturn(contasPage);
+
+        // Act
+        Page<DetalheContaDto> result = contaServiceImpl.listarContas(BigInteger.ONE, Pageable.unpaged());
+
+        // Assert
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isEmpty());
+        Assertions.assertEquals(0, result.getContent().size());
+    }
+
+    @Test
     @DisplayName("Deve listar uma conta específica")
     void listarConta() {
         Correntista correntista = new Correntista(BigInteger.ONE, "Nome", "Nome", "email@email.com", new HashSet<>(), true);
