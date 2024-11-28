@@ -18,10 +18,14 @@ import java.time.LocalDateTime;
 public class Transacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "transacao", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "transacao", sequenceName = "seq_transacao", allocationSize = 1)
     private BigInteger id;
 
+    @Column(nullable = false)
     private LocalDateTime dataTransacao;
+
+    @Column(nullable = false)
     private BigDecimal valor;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,9 +34,11 @@ public class Transacao {
     @ManyToOne(fetch = FetchType.LAZY)
     private Conta contaDestino;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoTransacao tipoTransacao;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 

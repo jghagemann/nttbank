@@ -18,18 +18,22 @@ import java.util.Set;
 public class Correntista {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "correntista", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "correntista", sequenceName = "seq_correntista", allocationSize = 1)
     private BigInteger id;
 
+    @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private String sobrenome;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @OneToMany(mappedBy = "correntista")
     private Set<Conta> contas = new HashSet<>();
 
+    @Column(nullable = false)
     private Boolean ativo;
 }

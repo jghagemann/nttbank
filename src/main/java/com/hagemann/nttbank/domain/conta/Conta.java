@@ -19,12 +19,14 @@ import java.util.Set;
 public class Conta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "conta", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "conta", sequenceName = "seq_conta", allocationSize = 1)
     private BigInteger id;
 
+    @Column(nullable = false)
     private BigDecimal saldo;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String numero;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +35,7 @@ public class Conta {
     @OneToMany(mappedBy = "contaOrigem")
     private Set<Transacao> transacoes;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoConta tipoConta;
 

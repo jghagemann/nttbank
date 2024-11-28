@@ -6,6 +6,7 @@ import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
 import com.hagemann.nttbank.domain.transacao.Transacao;
 import com.hagemann.nttbank.domain.transacao.TransacaoRepository;
+import com.hagemann.nttbank.exceptions.ArquivoException;
 import com.hagemann.nttbank.helper.ExcelHelper;
 import com.hagemann.nttbank.helper.GraficoHelper;
 import com.hagemann.nttbank.helper.PDFHelper;
@@ -42,7 +43,7 @@ public class ArquivoServiceImpl implements ArquivoService {
             List<Correntista> correntistasList = ExcelHelper.uploadExcel(arquivo.getInputStream());
             correntistaRepository.saveAll(correntistasList);
         } catch (IOException e) {
-            throw new RuntimeException("Falha ao persistir Correntistas no Banco de Dados");
+            throw new ArquivoException("Falha ao persistir Correntistas no Banco de Dados");
         }
     }
 
@@ -67,7 +68,7 @@ public class ArquivoServiceImpl implements ArquivoService {
                 .map(response -> {
                     BigDecimal exchangeRate = response.rates().get("BRL");
                     if (exchangeRate == null) {
-                        throw new RuntimeException("Failed to fetch exchange rate for BRL");
+                        throw new ArquivoException("Falha ao buscar cotação para BRL");
                     }
                     return PDFHelper.gerarPdfTransacoes(correntista, transacoes, exchangeRate);
                 })
