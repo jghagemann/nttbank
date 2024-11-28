@@ -3,6 +3,7 @@ package com.hagemann.nttbank.helper;
 import com.hagemann.nttbank.domain.transacao.Categoria;
 import com.hagemann.nttbank.domain.transacao.TipoTransacao;
 import com.hagemann.nttbank.domain.transacao.Transacao;
+import com.hagemann.nttbank.exceptions.ArquivoException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
@@ -63,7 +64,7 @@ public class GraficoHelper {
             ChartUtils.writeChartAsPNG(baos, pieChart, 800, 600);
             return baos;
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao gerar gráfico de despesas", e);
+            throw new ArquivoException("Erro ao gerar gráfico de despesas");
         }
     }
 }

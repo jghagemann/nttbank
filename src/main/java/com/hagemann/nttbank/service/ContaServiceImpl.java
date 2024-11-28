@@ -5,6 +5,7 @@ import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ContaServiceImpl implements ContaService {
     }
 
     @Override
-    public DetalheContaDto criarConta(ContaDto contaDto) {
+    public DetalheContaDto criarConta(@Valid ContaDto contaDto) {
 
         Correntista correntista = correntistaRepository.getReferenceById(contaDto.correntistaId());
 
@@ -38,12 +39,12 @@ public class ContaServiceImpl implements ContaService {
         return new DetalheContaDto(conta);
     }
     @Override
-    public Page<DetalheContaDto> listarContas(BigInteger id, Pageable pageable) {
+    public Page<DetalheContaDto> listarContas(@NotNull BigInteger id, Pageable pageable) {
         Page<Conta> contas = contaRepository.findAllByCorrentistaId(id, pageable);
         return contas.map(DetalheContaDto::new);
     }
     @Override
-    public DetalheContaDto listar(BigInteger id) {
+    public DetalheContaDto listar(@NotNull BigInteger id) {
         Conta conta = contaRepository.getReferenceById(id);
         return new DetalheContaDto(conta);
     }
@@ -62,7 +63,7 @@ public class ContaServiceImpl implements ContaService {
     }
 
     @Override
-    public void excluir(BigInteger id) {
+    public void excluir(@NotNull BigInteger id) {
         Conta conta = contaRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException("Conta não encontrada"));
         contaRepository.delete(conta);

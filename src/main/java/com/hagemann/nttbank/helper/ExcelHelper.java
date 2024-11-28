@@ -1,6 +1,7 @@
 package com.hagemann.nttbank.helper;
 
 import com.hagemann.nttbank.domain.correntista.Correntista;
+import com.hagemann.nttbank.exceptions.ArquivoException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -70,7 +71,7 @@ public class ExcelHelper {
 
             return correntistaList;
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao ler arquivo Excel", e);
+            throw new ArquivoException("Erro ao ler arquivo Excel");
         }
     }
 }
