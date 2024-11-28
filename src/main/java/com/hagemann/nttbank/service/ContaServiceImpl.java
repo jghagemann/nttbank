@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -41,17 +42,24 @@ public class ContaServiceImpl implements ContaService {
     @Override
     public Page<DetalheContaDto> listarContas(@NotNull BigInteger id, Pageable pageable) {
         Page<Conta> contas = contaRepository.findAllByCorrentistaId(id, pageable);
+
+        if (Objects.isNull(contas)) {
+            throw new EntityNotFoundException("Não foram encontradas contas");
+        }
         return contas.map(DetalheContaDto::new);
     }
+
     @Override
     public DetalheContaDto listar(@NotNull BigInteger id) {
-        Conta conta = contaRepository.getReferenceById(id);
+        Conta conta = contaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Conta não encontrada"));
         return new DetalheContaDto(conta);
     }
 
     @Override
     public DetalheContaDto atualizarDadosConta(@Valid AtualizarDadosContaDto atualizarDadosContaDto) {
-        Conta conta = contaRepository.getReferenceById(atualizarDadosContaDto.id());
+        Conta conta = contaRepository.findById(atualizarDadosContaDto.id())
+                .orElseThrow(() -> new EntityNotFoundException("Conta não encontrada"));
 
         Boolean isContaNumeroUtilizado = contaRepository.existsByNumero(atualizarDadosContaDto.numero());
 
