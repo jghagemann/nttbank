@@ -17,23 +17,19 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigInteger;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 class CorrentistaServiceImplTest {
 
     @InjectMocks
-    CorrentistaServiceImpl correntistaServiceImpl;
+    private CorrentistaServiceImpl correntistaServiceImpl;
 
     @Mock
-    CorrentistaService correntistaService;
+    private CorrentistaRepository correntistaRepository;
 
     @Mock
-    CorrentistaRepository correntistaRepository;
-
-    @Mock
-    ContaRepository contaRepository;
+    private ContaRepository contaRepository;
 
     @BeforeEach
     void setUp() {
@@ -41,40 +37,40 @@ class CorrentistaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Deve cadastrar um correntista com sucesso")
-    void cadastrarCorrentistaComSucesso() {
-        CorrentistaDto correntistaDto = new CorrentistaDto("Nome", "Sobrenome", "email@email.com");
-        Correntista correntista = new Correntista(BigInteger.ONE, "Nome", "Sobrenome", "email@email.com", null, true);
+    @DisplayName("Deve criar novo correntista")
+    void shouldRegisterNewCorrentista() {
+        CorrentistaDto dto = new CorrentistaDto("John", "Doe", "john.doe@example.com");
+        Correntista savedCorrentista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
 
         Mockito.when(correntistaRepository.existsByEmail(Mockito.anyString())).thenReturn(false);
-        Mockito.when(correntistaRepository.save(Mockito.any(Correntista.class))).thenReturn(correntista);
+        Mockito.when(correntistaRepository.save(Mockito.any(Correntista.class))).thenReturn(savedCorrentista);
 
-        DetalheCorrentistaDto result = correntistaServiceImpl.cadastrar(correntistaDto);
+        DetalheCorrentistaDto result = correntistaServiceImpl.cadastrar(dto);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("Nome", result.nome());
-        Assertions.assertEquals("Sobrenome", result.sobrenome());
+        Assertions.assertEquals("John", result.nome());
+        Assertions.assertEquals("Doe", result.sobrenome());
+        Mockito.verify(correntistaRepository, Mockito.times(1)).save(Mockito.any(Correntista.class));
     }
 
     @Test
-    @DisplayName("Deve lançar erro ao cadastrar correntista com email já cadastrado")
-    void cadastrarCorrentistaEmailDuplicado() {
-        CorrentistaDto correntistaDto = new CorrentistaDto("Nome", "Sobrenome", "email@email.com");
+    @DisplayName("Deve jogar exceção quando há correntista com e-mail já cadastrado")
+    void shouldThrowErrorForDuplicateEmail() {
+        CorrentistaDto dto = new CorrentistaDto("John", "Doe", "john.doe@example.com");
 
         Mockito.when(correntistaRepository.existsByEmail(Mockito.anyString())).thenReturn(true);
 
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            correntistaServiceImpl.cadastrar(correntistaDto);
-        });
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> correntistaServiceImpl.cadastrar(dto));
 
         Assertions.assertEquals("Email já cadastrado", exception.getMessage());
+        Mockito.verify(correntistaRepository, Mockito.never()).save(Mockito.any(Correntista.class));
     }
 
     @Test
-    @DisplayName("Deve listar todos os correntistas com sucesso")
-    void listarTodosCorrentistasComSucesso() {
-        Correntista correntista1 = new Correntista(BigInteger.ONE, "Nome1", "Sobrenome1", "email1@email.com", null, true);
-        Correntista correntista2 = new Correntista(BigInteger.TWO, "Nome2", "Sobrenome2", "email2@email.com", null, true);
+    @DisplayName("Deve listar todos os correntistas")
+    void shouldListAllCorrentistas() {
+        Correntista correntista1 = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
+        Correntista correntista2 = new Correntista(BigInteger.TWO, "Jane", "Doe", "jane.doe@example.com", null, true);
         Page<Correntista> correntistaPage = new PageImpl<>(List.of(correntista1, correntista2));
 
         Mockito.when(correntistaRepository.findAll(Mockito.any(Pageable.class))).thenReturn(correntistaPage);
@@ -83,90 +79,92 @@ class CorrentistaServiceImplTest {
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(2, result.getContent().size());
+        Mockito.verify(correntistaRepository, Mockito.times(1)).findAll(Mockito.any(Pageable.class));
     }
 
     @Test
-    @DisplayName("Deve lançar erro ao listar correntistas quando a lista está vazia")
-    void listarTodosCorrentistasListaVazia() {
-        Page<Correntista> emptyPage = Page.empty();
+    @DisplayName("Deve jogar exceção quando lista estiver vazia")
+    void shouldThrowErrorForEmptyCorrentistaList() {
+        Mockito.when(correntistaRepository.findAll(Mockito.any(Pageable.class))).thenReturn(Page.empty());
 
-        Mockito.when(correntistaRepository.findAll(Mockito.any(Pageable.class))).thenReturn(emptyPage);
-
-        CorrentistaException exception = Assertions.assertThrows(CorrentistaException.class, () -> {
-            correntistaServiceImpl.listarTodos(Pageable.unpaged());
-        });
+        CorrentistaException exception = Assertions.assertThrows(CorrentistaException.class, () -> correntistaServiceImpl.listarTodos(Pageable.unpaged()));
 
         Assertions.assertEquals("A lista está vazia", exception.getMessage());
+        Mockito.verify(correntistaRepository, Mockito.times(1)).findAll(Mockito.any(Pageable.class));
     }
 
     @Test
     @DisplayName("Deve listar um correntista específico")
-    void listarCorrentista() {
-        Correntista correntista = new Correntista(BigInteger.ONE, "Nome", "Sobrenome", "email@email.com", null, true);
+    void shouldListSpecificCorrentista() {
+        Correntista correntista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
 
         Mockito.when(correntistaRepository.findById(Mockito.any(BigInteger.class))).thenReturn(Optional.of(correntista));
 
         DetalheCorrentistaDto result = correntistaServiceImpl.listar(BigInteger.ONE);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("Nome", result.nome());
-        Assertions.assertEquals("Sobrenome", result.sobrenome());
+        Assertions.assertEquals("John", result.nome());
+        Assertions.assertEquals("Doe", result.sobrenome());
+        Mockito.verify(correntistaRepository, Mockito.times(1)).findById(Mockito.any(BigInteger.class));
     }
 
     @Test
-    @DisplayName("Deve lançar erro ao tentar listar correntista inexistente")
-    void listarCorrentistaInexistente() {
+    @DisplayName("Deve jogar exceção quando não encontrar um correntista")
+    void shouldThrowErrorForNonExistentCorrentista() {
         Mockito.when(correntistaRepository.findById(Mockito.any(BigInteger.class))).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = Assertions.assertThrows(EntityNotFoundException.class, () -> {
-            correntistaServiceImpl.listar(BigInteger.ONE);
-        });
+        EntityNotFoundException exception = Assertions.assertThrows(EntityNotFoundException.class, () -> correntistaServiceImpl.listar(BigInteger.ONE));
 
         Assertions.assertEquals("Correntista não encontrado", exception.getMessage());
+        Mockito.verify(correntistaRepository, Mockito.times(1)).findById(Mockito.any(BigInteger.class));
     }
 
     @Test
-    @DisplayName("Deve atualizar dados de um correntista")
-    void atualizarDadosCorrentista() {
-        AtualizarDadosCorrentistaDto atualizarDto = new AtualizarDadosCorrentistaDto(BigInteger.ONE, "NovoNome", "NovoSobrenome", "novo@email.com", true);
-        Correntista correntista = new Correntista(BigInteger.ONE, "Nome", "Sobrenome", "email@email.com", new HashSet<>(), true);
+    @DisplayName("Deve atualizar corretamente os dados do correntista")
+    void shouldUpdateCorrentistaData() {
+        AtualizarDadosCorrentistaDto dto = new AtualizarDadosCorrentistaDto(BigInteger.ONE, "John", "Smith", "john.smith@example.com", false);
+        Correntista correntista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
 
         Mockito.when(correntistaRepository.findById(Mockito.any(BigInteger.class))).thenReturn(Optional.of(correntista));
 
-        DetalheCorrentistaDto result = correntistaServiceImpl.atualizarDados(atualizarDto);
+        DetalheCorrentistaDto result = correntistaServiceImpl.atualizarDados(dto);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("NovoNome", result.nome());
-        Assertions.assertEquals("NovoSobrenome", result.sobrenome());
-        Assertions.assertEquals("novo@email.com", result.email());
+        Assertions.assertEquals("John", result.nome());
+        Assertions.assertEquals("Smith", result.sobrenome());
+        Assertions.assertEquals("john.smith@example.com", result.email());
+        Assertions.assertFalse(result.ativo());
+        Mockito.verify(correntistaRepository, Mockito.never()).save(Mockito.any(Correntista.class));
     }
 
     @Test
-    @DisplayName("Deve manter os dados do correntista iguais quando em branco")
-    void atualizarDadosCorrentistaDadosIguais() {
-        AtualizarDadosCorrentistaDto atualizarDto = new AtualizarDadosCorrentistaDto(BigInteger.ONE, "", "", "", null);
-        Correntista correntista = new Correntista(BigInteger.ONE, "Nome", "Sobrenome", "email@email.com", new HashSet<>(), true);
+    @DisplayName("Deve retornar os dados do correntista iguais quando não forem passados dados")
+    void shouldUpdateCorrentistaNullData() {
+        AtualizarDadosCorrentistaDto dto = new AtualizarDadosCorrentistaDto(BigInteger.ONE, "", "", "", null);
+        Correntista correntista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, null);
 
         Mockito.when(correntistaRepository.findById(Mockito.any(BigInteger.class))).thenReturn(Optional.of(correntista));
 
-        DetalheCorrentistaDto result = correntistaServiceImpl.atualizarDados(atualizarDto);
+        DetalheCorrentistaDto result = correntistaServiceImpl.atualizarDados(dto);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("Nome", result.nome());
-        Assertions.assertEquals("Sobrenome", result.sobrenome());
-        Assertions.assertEquals("email@email.com", result.email());
+        Assertions.assertEquals("John", result.nome());
+        Assertions.assertEquals("Doe", result.sobrenome());
+        Assertions.assertEquals("john.doe@example.com", result.email());
+        Assertions.assertNull(result.ativo());
+        Mockito.verify(correntistaRepository, Mockito.never()).save(Mockito.any(Correntista.class));
     }
 
     @Test
-    @DisplayName("Deve desativar um correntista com sucesso")
-    void desativarCorrentista() {
-        Correntista correntista = new Correntista(BigInteger.ONE, "Nome", "Sobrenome", "email@email.com", null, true);
+    @DisplayName("Deve realizar a exclusão lógica do correntista")
+    void shouldDeactivateCorrentista() {
+        Correntista correntista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
 
         Mockito.when(correntistaRepository.findById(Mockito.any(BigInteger.class))).thenReturn(Optional.of(correntista));
 
         Assertions.assertDoesNotThrow(() -> correntistaServiceImpl.desativar(BigInteger.ONE));
 
-        Mockito.verify(correntistaRepository, Mockito.times(1)).save(correntista);
         Assertions.assertFalse(correntista.getAtivo());
+        Mockito.verify(correntistaRepository, Mockito.times(1)).save(Mockito.any(Correntista.class));
     }
 }

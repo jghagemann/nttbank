@@ -67,6 +67,7 @@ public class ContaServiceImpl implements ContaService {
             throw new IllegalArgumentException("Esse número de conta já existe");
         }
         conta.setNumero(atualizarDadosContaDto.numero());
+        contaRepository.save(conta);
         return new DetalheContaDto(conta);
     }
 
