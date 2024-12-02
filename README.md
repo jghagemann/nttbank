@@ -22,7 +22,7 @@ Geração de Documentos:
 # Estrutura do Desafio:
 
 1. Containers Docker:
-    1. Configurar o ambiente de desenvolvimento com Docker, incluindo um DB (e.g. PostgreSQL, MySQL) e a aplicação Spring Boot 
+    1. Configurar o ambiente de desenvolvimento com Docker, incluindo um DB (e.g. PostgreSQL, MySQL) e a aplicação Spring Boot :white_check_mark:
 
 
 2. CRUD de usuários e Transações:
@@ -60,7 +60,7 @@ Geração de Documentos:
 
 
 10. Testes Unitários:
-    1. Escrever testes unitários abrangentes para todas as funcionalidades críticas da aplicação
+    1. Escrever testes unitários abrangentes para todas as funcionalidades críticas da aplicação :white_check_mark:
 
 
 11. Doc OpenAPI e Tech Write:
