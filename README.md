@@ -52,7 +52,7 @@ Geração de Documentos:
 
 
 8. Validação dos Inputs:
-    1. Implementar validações robustas para todas as entradas de dados, incluindo formulários de usuário e transações.
+    1. Implementar validações robustas para todas as entradas de dados, incluindo formulários de usuário e transações. :white_check_mark:
 
 
 9. Spring Security:
