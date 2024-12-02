@@ -1,5 +1,6 @@
 package com.hagemann.nttbank.controller;
 
+import com.hagemann.nttbank.exceptions.ArquivoException;
 import com.hagemann.nttbank.service.ArquivoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,7 @@ public class ArquivoController {
             arquivoService.uploadExcel(arquivo);
             message = "Upload concluído com sucesso: " + arquivo.getOriginalFilename();
             return ResponseEntity.ok(message);
-        } catch (Exception e) {
+        } catch (ArquivoException e) {
             message = "Falha ao efetuar upload do arquivo: " + arquivo.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }

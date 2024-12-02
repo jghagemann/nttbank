@@ -23,8 +23,7 @@ public class CorrentistaController {
 
     private final CorrentistaService correntistaService;
 
-
-    public CorrentistaController(CorrentistaServiceImpl correntistaService) {
+    public CorrentistaController(CorrentistaService correntistaService) {
         this.correntistaService = correntistaService;
     }
 

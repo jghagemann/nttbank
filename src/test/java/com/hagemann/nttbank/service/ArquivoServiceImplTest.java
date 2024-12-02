@@ -58,7 +58,7 @@ class ArquivoServiceImplTest {
 
 
     @Test
-    @DisplayName("Should throw ArquivoException when uploading Excel fails")
+    @DisplayName("Deve jogar ArquivoException quando upload Excel falha")
     void shouldThrowArquivoExceptionWhenUploadingExcelFails() throws Exception {
         Mockito.when(multipartFile.getInputStream()).thenThrow(new IOException("Error"));
 
@@ -68,7 +68,7 @@ class ArquivoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Should generate PDF with transactions successfully")
+    @DisplayName("Deve gerar um PDF com transações")
     void shouldGeneratePdfWithTransactionsSuccessfully() {
         Correntista correntista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
 
@@ -88,7 +88,7 @@ class ArquivoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Should generate PDF with transactions and exchange rate successfully")
+    @DisplayName("Deve gerar um PDF com conversão de moedas")
     void shouldGeneratePdfWithTransactionsAndExchangeRateSuccessfully() {
         Correntista correntista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
         Conta conta1 = new Conta(BigInteger.ONE, BigDecimal.TEN, "0001-1", correntista, new HashSet<>(), TipoConta.CORRENTE);
@@ -112,7 +112,7 @@ class ArquivoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Should generate graph of expenses successfully")
+    @DisplayName("Deve gerar um gráfico")
     void shouldGenerateGraphOfExpensesSuccessfully() {
         Correntista correntista = new Correntista(BigInteger.ONE, "John", "Doe", "john.doe@example.com", null, true);
         Conta conta1 = new Conta(BigInteger.ONE, BigDecimal.TEN, "0001-1", correntista, new HashSet<>(), TipoConta.CORRENTE);
