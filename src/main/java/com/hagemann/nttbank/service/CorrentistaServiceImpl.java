@@ -2,7 +2,8 @@ package com.hagemann.nttbank.service;
 
 import com.hagemann.nttbank.domain.conta.ContaRepository;
 import com.hagemann.nttbank.domain.correntista.*;
-import com.hagemann.nttbank.exceptions.CorrentistaException;
+import com.hagemann.nttbank.exceptions.EmailJaCadastradoException;
+import com.hagemann.nttbank.exceptions.ListaVaziaException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -31,7 +32,7 @@ public class CorrentistaServiceImpl implements CorrentistaService {
         Boolean emailExists = correntistaRepository.existsByEmail(correntistaDto.email());
 
         if (Boolean.TRUE.equals(emailExists)) {
-            throw new IllegalArgumentException("Email já cadastrado");
+            throw new EmailJaCadastradoException("Email já cadastrado");
         }
 
         Correntista correntista = new Correntista();
@@ -49,7 +50,7 @@ public class CorrentistaServiceImpl implements CorrentistaService {
         Page<DetalheCorrentistaDto> detalheCorrentistaDtoPage = correntistaRepository.findAll(pageable).map(DetalheCorrentistaDto::new);
 
         if (detalheCorrentistaDtoPage.isEmpty()) {
-            throw new CorrentistaException("A lista está vazia");
+            throw new ListaVaziaException("A lista está vazia");
         }
         return detalheCorrentistaDtoPage;
     }

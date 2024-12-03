@@ -36,7 +36,9 @@ public class SecurityConfigurations {
                     req.requestMatchers("/arquivos/pdf/**").permitAll();
                     req.requestMatchers("/arquivos/grafico/**").permitAll();
                     req.requestMatchers("/administrador").permitAll();
-                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
+                    req.requestMatchers("/v3/api-docs/**").permitAll();
+                    req.requestMatchers("/swagger-ui.html").permitAll();
+                    req.requestMatchers("/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

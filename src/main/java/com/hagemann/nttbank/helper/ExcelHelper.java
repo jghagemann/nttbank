@@ -61,10 +61,19 @@ public class ExcelHelper {
                 }
 
                 Correntista correntista = new Correntista();
-                correntista.setNome(currentRow.getCell(0).getStringCellValue());
-                correntista.setSobrenome(currentRow.getCell(1).getStringCellValue());
-                correntista.setEmail(currentRow.getCell(2).getStringCellValue());
-                correntista.setAtivo(currentRow.getCell(3).getBooleanCellValue());
+                Cell nomeCell = currentRow.getCell(0);
+                correntista.setNome(nomeCell != null ? nomeCell.getStringCellValue() : null);
+
+                Cell sobrenomeCell = currentRow.getCell(1);
+                correntista.setSobrenome(sobrenomeCell != null ? sobrenomeCell.getStringCellValue() : null);
+
+                Cell emailCell = currentRow.getCell(2);
+                correntista.setEmail(emailCell != null ? emailCell.getStringCellValue() : null);
+
+                Cell ativoCell = currentRow.getCell(3);
+                correntista.setAtivo(ativoCell != null && ativoCell.getCellType() == CellType.BOOLEAN
+                        ? ativoCell.getBooleanCellValue()
+                        : false);
 
                 correntistaList.add(correntista);
             }

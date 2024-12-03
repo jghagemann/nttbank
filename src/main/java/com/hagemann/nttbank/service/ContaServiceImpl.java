@@ -3,6 +3,8 @@ package com.hagemann.nttbank.service;
 import com.hagemann.nttbank.domain.conta.*;
 import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
+import com.hagemann.nttbank.exceptions.ContaJaCadastradaException;
+import com.hagemann.nttbank.exceptions.ListaVaziaException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -43,8 +45,8 @@ public class ContaServiceImpl implements ContaService {
     public Page<DetalheContaDto> listarContas(@NotNull BigInteger id, Pageable pageable) {
         Page<Conta> contas = contaRepository.findAllByCorrentistaId(id, pageable);
 
-        if (Objects.isNull(contas)) {
-            throw new EntityNotFoundException("Não foram encontradas contas");
+        if (contas.getContent().isEmpty()) {
+            throw new ListaVaziaException("Não foram encontradas contas");
         }
         return contas.map(DetalheContaDto::new);
     }
@@ -64,7 +66,7 @@ public class ContaServiceImpl implements ContaService {
         Boolean isContaNumeroUtilizado = contaRepository.existsByNumero(atualizarDadosContaDto.numero());
 
         if (Boolean.TRUE.equals(isContaNumeroUtilizado)) {
-            throw new IllegalArgumentException("Esse número de conta já existe");
+            throw new ContaJaCadastradaException("Esse número de conta já existe");
         }
         conta.setNumero(atualizarDadosContaDto.numero());
         contaRepository.save(conta);

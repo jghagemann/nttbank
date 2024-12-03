@@ -12,6 +12,7 @@ import com.hagemann.nttbank.domain.transacao.TipoTransacao;
 import com.hagemann.nttbank.domain.transacao.Transacao;
 import com.hagemann.nttbank.domain.transacao.TransacaoRepository;
 import com.hagemann.nttbank.exceptions.ArquivoException;
+import com.hagemann.nttbank.exceptions.ArquivoUploadException;
 import com.hagemann.nttbank.helper.ExcelHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,7 +63,7 @@ class ArquivoServiceImplTest {
     void shouldThrowArquivoExceptionWhenUploadingExcelFails() throws Exception {
         Mockito.when(multipartFile.getInputStream()).thenThrow(new IOException("Error"));
 
-        ArquivoException exception = assertThrows(ArquivoException.class, () -> arquivoServiceImpl.uploadExcel(multipartFile));
+        ArquivoUploadException exception = assertThrows(ArquivoUploadException.class, () -> arquivoServiceImpl.uploadExcel(multipartFile));
 
         assertEquals("Falha ao persistir Correntistas no Banco de Dados", exception.getMessage());
     }
