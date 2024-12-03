@@ -2,7 +2,8 @@ package com.hagemann.nttbank.service;
 
 import com.hagemann.nttbank.domain.conta.ContaRepository;
 import com.hagemann.nttbank.domain.correntista.*;
-import com.hagemann.nttbank.exceptions.CorrentistaException;
+import com.hagemann.nttbank.exceptions.EmailJaCadastradoException;
+import com.hagemann.nttbank.exceptions.ListaVaziaException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,7 +61,7 @@ class CorrentistaServiceImplTest {
 
         Mockito.when(correntistaRepository.existsByEmail(Mockito.anyString())).thenReturn(true);
 
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> correntistaServiceImpl.cadastrar(dto));
+        EmailJaCadastradoException exception = Assertions.assertThrows(EmailJaCadastradoException.class, () -> correntistaServiceImpl.cadastrar(dto));
 
         Assertions.assertEquals("Email já cadastrado", exception.getMessage());
         Mockito.verify(correntistaRepository, Mockito.never()).save(Mockito.any(Correntista.class));
@@ -87,7 +88,7 @@ class CorrentistaServiceImplTest {
     void shouldThrowErrorForEmptyCorrentistaList() {
         Mockito.when(correntistaRepository.findAll(Mockito.any(Pageable.class))).thenReturn(Page.empty());
 
-        CorrentistaException exception = Assertions.assertThrows(CorrentistaException.class, () -> correntistaServiceImpl.listarTodos(Pageable.unpaged()));
+        ListaVaziaException exception = Assertions.assertThrows(ListaVaziaException.class, () -> correntistaServiceImpl.listarTodos(Pageable.unpaged()));
 
         Assertions.assertEquals("A lista está vazia", exception.getMessage());
         Mockito.verify(correntistaRepository, Mockito.times(1)).findAll(Mockito.any(Pageable.class));

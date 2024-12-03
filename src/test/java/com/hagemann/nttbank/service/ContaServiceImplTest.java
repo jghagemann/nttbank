@@ -3,6 +3,8 @@ package com.hagemann.nttbank.service;
 import com.hagemann.nttbank.domain.conta.*;
 import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
+import com.hagemann.nttbank.exceptions.ContaJaCadastradaException;
+import com.hagemann.nttbank.exceptions.ListaVaziaException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -157,26 +160,14 @@ class ContaServiceImplTest {
         Mockito.when(contaRepository.findById(Mockito.any(BigInteger.class))).thenReturn(Optional.of(conta));
         Mockito.when(contaRepository.existsByNumero(Mockito.any(String.class))).thenReturn(true);
 
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        ContaJaCadastradaException exception = Assertions.assertThrows(ContaJaCadastradaException.class, () -> {
             contaServiceImpl.atualizarDadosConta(atualizarDadosContaDto);
         });
 
         Assertions.assertEquals("Esse número de conta já existe", exception.getMessage());
     }
 
-    @Test
-    @DisplayName("Deve lançar erro ao tentar listar contas e receber página nula")
-    void listarContasResultadoNulo() {
-        // Arrange
-        Mockito.when(contaRepository.findAllByCorrentistaId(Mockito.any(BigInteger.class), Mockito.any(Pageable.class)))
-                .thenReturn(null);
 
-        EntityNotFoundException exception = Assertions.assertThrows(EntityNotFoundException.class, () -> {
-            contaServiceImpl.listarContas(BigInteger.ONE, Pageable.unpaged());
-        });
-
-        Assertions.assertEquals("Não foram encontradas contas", exception.getMessage());
-    }
 
     @Test
     @DisplayName("Deve lançar erro ao tentar criar uma conta sem um correntista válido")
@@ -195,14 +186,14 @@ class ContaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Deve lançar erro quando o repositório retorna null ao listar contas")
+    @DisplayName("Deve lançar erro quando o repositório retorna lista vazia ao listar contas")
     void listarContasRetornaNulo() {
         // Arrange
         Mockito.when(contaRepository.findAllByCorrentistaId(Mockito.any(BigInteger.class), Mockito.any(Pageable.class)))
-                .thenReturn(null);
+                .thenReturn(Page.empty());
 
 
-        EntityNotFoundException exception = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+        ListaVaziaException exception = Assertions.assertThrows(ListaVaziaException.class, () -> {
             contaServiceImpl.listarContas(BigInteger.ONE, Pageable.unpaged());
         });
 
@@ -210,20 +201,17 @@ class ContaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Deve retornar página vazia ao listar contas quando não há contas disponíveis")
+    @DisplayName("Deve retornar Exceção ao listar contas quando não há contas disponíveis")
     void listarContasPaginaVazia() {
-        // Arrange
-        Page<Conta> contasPage = Page.empty();
         Mockito.when(contaRepository.findAllByCorrentistaId(Mockito.any(BigInteger.class), Mockito.any(Pageable.class)))
-                .thenReturn(contasPage);
+                .thenReturn(Page.empty());
 
 
-        Page<DetalheContaDto> result = contaServiceImpl.listarContas(BigInteger.ONE, Pageable.unpaged());
+        ListaVaziaException exception = Assertions.assertThrows(ListaVaziaException.class, () -> {
+            contaServiceImpl.listarContas(BigInteger.ONE, Pageable.unpaged());
+        });
 
-        // Assert
-        Assertions.assertNotNull(result);
-        Assertions.assertTrue(result.isEmpty());
-        Assertions.assertEquals(0, result.getContent().size());
+        Assertions.assertEquals("Não foram encontradas contas", exception.getMessage());
     }
     @Test
     @DisplayName("Deve atualizar uma conta com sucesso quando todos os dados estão corretos")
@@ -259,23 +247,6 @@ class ContaServiceImplTest {
         });
 
         Assertions.assertEquals("Conta não encontrada", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Deve lançar erro ao tentar atualizar uma conta com número duplicado")
-    void atualizarContaComNumeroDuplicado() {
-        // Arrange
-        AtualizarDadosContaDto atualizarDadosContaDto = new AtualizarDadosContaDto(BigInteger.ONE, "0001-2");
-        Conta contaExistente = new Conta(BigInteger.ONE, BigDecimal.TEN, "0001-1", null, new HashSet<>(), TipoConta.CORRENTE);
-
-        Mockito.when(contaRepository.findById(BigInteger.ONE)).thenReturn(Optional.of(contaExistente));
-        Mockito.when(contaRepository.existsByNumero("0001-2")).thenReturn(true);
-
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            contaServiceImpl.atualizarDadosConta(atualizarDadosContaDto);
-        });
-
-        Assertions.assertEquals("Esse número de conta já existe", exception.getMessage());
     }
 
 }

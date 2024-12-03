@@ -12,6 +12,8 @@ services:
       - 'postgres_data:/var/lib/postgresql/data'
     networks:
       - springboot-network
+    env_file:
+      - .env
 
   nttbank-app:
     image: 'nttbank:latest'
@@ -30,6 +32,8 @@ services:
       - postgres
     networks:
       - springboot-network
+    env_file:
+      - .env
 volumes:
   postgres_data:
 networks:

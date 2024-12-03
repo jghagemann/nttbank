@@ -3,7 +3,7 @@ package com.hagemann.nttbank.service;
 import com.hagemann.nttbank.domain.conta.Conta;
 import com.hagemann.nttbank.domain.conta.ContaRepository;
 import com.hagemann.nttbank.domain.transacao.*;
-import com.hagemann.nttbank.exceptions.TransacaoException;
+import com.hagemann.nttbank.exceptions.VisualizarListaTransacaoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +49,7 @@ public class TransacaoServiceImpl implements TransacaoService {
         Conta conta = contaRepository.getReferenceById(contaId);
         
         if (!Objects.equals(correntistaId, conta.getCorrentista().getId())) {
-            throw new TransacaoException("Correntista não autorizado a visualizar transações dessa conta");
+            throw new VisualizarListaTransacaoException("Correntista não autorizado a visualizar transações dessa conta");
         }
 
         Page<Transacao> transacoes = transacaoRepository.findAllByContaOrigemCorrentistaIdAndContaDestinoCorrentistaId(correntistaId, contaId, pageable);

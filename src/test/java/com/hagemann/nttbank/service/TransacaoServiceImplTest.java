@@ -5,7 +5,7 @@ import com.hagemann.nttbank.domain.conta.ContaRepository;
 import com.hagemann.nttbank.domain.conta.TipoConta;
 import com.hagemann.nttbank.domain.correntista.Correntista;
 import com.hagemann.nttbank.domain.transacao.*;
-import com.hagemann.nttbank.exceptions.TransacaoException;
+import com.hagemann.nttbank.exceptions.VisualizarListaTransacaoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -110,7 +110,7 @@ class TransacaoServiceImplTest {
 
         Mockito.when(contaRepository.getReferenceById(BigInteger.TWO)).thenReturn(conta);
 
-        TransacaoException exception = Assertions.assertThrows(TransacaoException.class, () -> {
+        VisualizarListaTransacaoException exception = Assertions.assertThrows(VisualizarListaTransacaoException.class, () -> {
             transacaoServiceImpl.listar(BigInteger.ONE, BigInteger.TWO, Pageable.unpaged());
         });
 
