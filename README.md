@@ -65,7 +65,7 @@ Geração de Documentos:
 
 11. Doc OpenAPI e Tech Write:
     1. Utilizar OpenAPI para documentar todos os endpoints da API. :white_check_mark:
-    2. Criar uma documentação técnica detalhada descrevendo a arquitetura, principais funcionalidades e instruções para configurar e rodar o projeto
+    2. Criar uma documentação técnica detalhada descrevendo a arquitetura, principais funcionalidades e instruções para configurar e rodar o projeto :white_check_mark:
 
 
 12. Rota para baixar relatório:
@@ -78,3 +78,19 @@ Geração de Documentos:
 - Documentação técnica e OpenAPI
 - Testes unitários com cobertura de código
 - Demonstração funcional da API com integração das APIs Mock e pública
+
+# Rodando o projeto:
+
+1. Baixar o projeto do repositório no github
+2. Realizar o build do projeto com o maven através da IDE ou linha de comando executando:
+
+`mvn clean install`
+3. Realizar o build da imagem do Docker executando:
+
+`docker compose build`
+4. Subir os containers docker executando:
+
+`docker compose up`
+5. Conferir se o projeto iniciou visitando a página da documentação OpenAPI:
+
+http://localhost:8080/swagger-ui/index.html
