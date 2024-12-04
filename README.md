@@ -81,6 +81,18 @@ Geração de Documentos:
 
 # Rodando o projeto:
 
+Será necessário criar um arquivo *.env* na raíz do projeto com as seguintes variáveis:
+
+```
+SPRING_DATASOURCE_URL
+SPRING_DATASOURCE_USERNAME
+SPRING_DATASOURCE_PASSWORD
+POSTGRES_DB
+POSTGRES_USER
+POSTGRES_PASSWORD
+EXCHANGE_RATES_API_KEY
+```
+
 1. Baixar o projeto do repositório no github
 2. Realizar o build do projeto com o maven através da IDE ou linha de comando executando:
 
