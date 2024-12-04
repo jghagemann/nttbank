@@ -94,15 +94,10 @@ EXCHANGE_RATES_API_KEY
 ```
 
 1. Baixar o projeto do repositório no github
-2. Realizar o build do projeto com o maven através da IDE ou linha de comando executando:
-
+2.Realizar o build do projeto com o maven através da IDE ou linha de comando executando:
 `mvn clean install`
-3. Realizar o build da imagem do Docker executando:
-
-`docker compose build`
-4. Subir os containers docker executando:
-
-`docker compose up`
+3. Realizar o build da imagem do Docker executando: `docker compose build`
+4. Subir os containers docker executando:`docker compose up`
 5. Conferir se o projeto iniciou visitando a página da documentação OpenAPI:
 
 http://localhost:8080/swagger-ui/index.html
