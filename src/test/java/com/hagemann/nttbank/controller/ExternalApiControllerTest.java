@@ -1,8 +1,9 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.client.ConversaoDtoRequest;
-import com.hagemann.nttbank.client.ConversaoDtoResponse;
-import com.hagemann.nttbank.service.ExternalApiService;
+import com.hagemann.nttbank.naousar.client.ConversaoDtoRequest;
+import com.hagemann.nttbank.naousar.client.ConversaoDtoResponse;
+import com.hagemann.nttbank.naousar.controller.ExternalApiController;
+import com.hagemann.nttbank.naousar.service.ExternalApiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

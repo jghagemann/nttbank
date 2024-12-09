@@ -1,8 +1,9 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.domain.conta.Conta;
-import com.hagemann.nttbank.domain.transacao.*;
-import com.hagemann.nttbank.service.TransacaoService;
+import com.hagemann.nttbank.naousar.controller.TransacaoController;
+import com.hagemann.nttbank.naousar.domain.conta.Conta;
+import com.hagemann.nttbank.naousar.domain.transacao.*;
+import com.hagemann.nttbank.naousar.service.TransacaoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,7 +1,8 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.client.AccountDtoResponse;
-import com.hagemann.nttbank.service.MockApiService;
+import com.hagemann.nttbank.naousar.client.AccountDtoResponse;
+import com.hagemann.nttbank.naousar.controller.MockApiController;
+import com.hagemann.nttbank.naousar.service.MockApiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

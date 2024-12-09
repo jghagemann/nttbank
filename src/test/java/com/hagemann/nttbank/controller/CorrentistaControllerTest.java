@@ -1,10 +1,10 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.domain.correntista.AtualizarDadosCorrentistaDto;
-import com.hagemann.nttbank.domain.correntista.CorrentistaDto;
-import com.hagemann.nttbank.domain.correntista.DetalheCorrentistaDto;
-import com.hagemann.nttbank.domain.usuario.DetalheUsuarioDto;
-import com.hagemann.nttbank.service.CorrentistaService;
+import com.hagemann.nttbank.naousar.controller.CorrentistaController;
+import com.hagemann.nttbank.naousar.domain.correntista.AtualizarDadosCorrentistaDto;
+import com.hagemann.nttbank.naousar.domain.correntista.CorrentistaDto;
+import com.hagemann.nttbank.naousar.domain.correntista.DetalheCorrentistaDto;
+import com.hagemann.nttbank.naousar.service.CorrentistaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

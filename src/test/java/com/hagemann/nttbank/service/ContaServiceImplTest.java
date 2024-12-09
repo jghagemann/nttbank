@@ -1,10 +1,11 @@
 package com.hagemann.nttbank.service;
 
-import com.hagemann.nttbank.domain.conta.*;
-import com.hagemann.nttbank.domain.correntista.Correntista;
-import com.hagemann.nttbank.domain.correntista.CorrentistaRepository;
-import com.hagemann.nttbank.exceptions.ContaJaCadastradaException;
-import com.hagemann.nttbank.exceptions.ListaVaziaException;
+import com.hagemann.nttbank.naousar.domain.conta.*;
+import com.hagemann.nttbank.naousar.domain.correntista.Correntista;
+import com.hagemann.nttbank.naousar.domain.correntista.CorrentistaRepository;
+import com.hagemann.nttbank.naousar.exceptions.ContaJaCadastradaException;
+import com.hagemann.nttbank.naousar.exceptions.ListaVaziaException;
+import com.hagemann.nttbank.naousar.service.ContaServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;

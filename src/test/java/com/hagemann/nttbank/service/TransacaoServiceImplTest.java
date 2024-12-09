@@ -1,11 +1,13 @@
 package com.hagemann.nttbank.service;
 
-import com.hagemann.nttbank.domain.conta.Conta;
-import com.hagemann.nttbank.domain.conta.ContaRepository;
-import com.hagemann.nttbank.domain.conta.TipoConta;
-import com.hagemann.nttbank.domain.correntista.Correntista;
-import com.hagemann.nttbank.domain.transacao.*;
-import com.hagemann.nttbank.exceptions.VisualizarListaTransacaoException;
+import com.hagemann.nttbank.naousar.domain.conta.Conta;
+import com.hagemann.nttbank.naousar.domain.conta.ContaRepository;
+import com.hagemann.nttbank.naousar.domain.conta.TipoConta;
+import com.hagemann.nttbank.naousar.domain.correntista.Correntista;
+import com.hagemann.nttbank.naousar.domain.transacao.*;
+import com.hagemann.nttbank.naousar.exceptions.VisualizarListaTransacaoException;
+import com.hagemann.nttbank.naousar.service.TransacaoService;
+import com.hagemann.nttbank.naousar.service.TransacaoServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

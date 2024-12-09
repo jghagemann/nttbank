@@ -1,9 +1,10 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.domain.usuario.AutenticacaoDto;
-import com.hagemann.nttbank.domain.usuario.Usuario;
-import com.hagemann.nttbank.infra.security.DadosTokenJwtDto;
-import com.hagemann.nttbank.infra.security.TokenService;
+import com.hagemann.nttbank.naousar.controller.AutenticacaoController;
+import com.hagemann.nttbank.naousar.domain.usuario.AutenticacaoDto;
+import com.hagemann.nttbank.infra.persistence.entities.UsuarioEntity;
+import com.hagemann.nttbank.infra.persistence.security.DadosTokenJwtDto;
+import com.hagemann.nttbank.config.TokenService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import java.math.BigInteger;
@@ -41,12 +41,12 @@ class AutenticacaoControllerTest {
     @Test
     void shouldGenerateAuthenticationToken() {
 
-        Usuario usuario = new Usuario(); // Mocked domain user
-        usuario.setId(BigInteger.ONE);
+        UsuarioEntity usuarioEntity = new UsuarioEntity(); // Mocked domain user
+        usuarioEntity.setId(BigInteger.ONE);
         AutenticacaoDto autenticacaoDto = new AutenticacaoDto("teste@teste.com", "123456");
 
         Authentication authentication = Mockito.mock(Authentication.class);
-        Mockito.when(authentication.getPrincipal()).thenReturn(usuario);
+        Mockito.when(authentication.getPrincipal()).thenReturn(usuarioEntity);
 
         Mockito.when(authenticationManager.authenticate(Mockito.any())).thenReturn(authentication);
         Mockito.when(tokenService.gerarToken(Mockito.any())).thenReturn("eYOKlkjdsaDFADJSDKs");

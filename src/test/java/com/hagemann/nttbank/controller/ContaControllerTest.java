@@ -1,10 +1,11 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.domain.conta.AtualizarDadosContaDto;
-import com.hagemann.nttbank.domain.conta.ContaDto;
-import com.hagemann.nttbank.domain.conta.DetalheContaDto;
-import com.hagemann.nttbank.domain.conta.TipoConta;
-import com.hagemann.nttbank.service.ContaService;
+import com.hagemann.nttbank.naousar.controller.ContaController;
+import com.hagemann.nttbank.naousar.domain.conta.AtualizarDadosContaDto;
+import com.hagemann.nttbank.naousar.domain.conta.ContaDto;
+import com.hagemann.nttbank.naousar.domain.conta.DetalheContaDto;
+import com.hagemann.nttbank.naousar.domain.conta.TipoConta;
+import com.hagemann.nttbank.naousar.service.ContaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

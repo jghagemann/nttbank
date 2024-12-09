@@ -1,9 +1,10 @@
 package com.hagemann.nttbank.service;
 
-import com.hagemann.nttbank.domain.conta.ContaRepository;
-import com.hagemann.nttbank.domain.correntista.*;
-import com.hagemann.nttbank.exceptions.EmailJaCadastradoException;
-import com.hagemann.nttbank.exceptions.ListaVaziaException;
+import com.hagemann.nttbank.naousar.domain.conta.ContaRepository;
+import com.hagemann.nttbank.naousar.domain.correntista.*;
+import com.hagemann.nttbank.naousar.exceptions.EmailJaCadastradoException;
+import com.hagemann.nttbank.naousar.exceptions.ListaVaziaException;
+import com.hagemann.nttbank.naousar.service.CorrentistaServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

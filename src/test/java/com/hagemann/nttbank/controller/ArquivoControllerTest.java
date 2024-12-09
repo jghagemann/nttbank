@@ -1,7 +1,8 @@
 package com.hagemann.nttbank.controller;
 
-import com.hagemann.nttbank.exceptions.ArquivoException;
-import com.hagemann.nttbank.service.ArquivoServiceImpl;
+import com.hagemann.nttbank.naousar.controller.ArquivoController;
+import com.hagemann.nttbank.naousar.exceptions.ArquivoException;
+import com.hagemann.nttbank.naousar.service.ArquivoServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
